@@ -2,6 +2,10 @@ package com.cos.securityblog.web;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +27,10 @@ public class PostController {
 	
 	
 	@GetMapping("/")
-	public String findAll(Model model) { // 스프링이 제공해주는 라이브러리 Model
-		List<Post> posts = postService.전체찾기();
+	public String findAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=5)Pageable pageable ) { // 스프링이 제공해주는 라이브러리 Model
+		//List<Post> posts = postService.전체찾기(pageable);
+		Page<Post> posts = postService.전체찾기(pageable);
+		
 		model.addAttribute("posts",posts); // requestDispatcher 에 담고 포워딩 한거랑 같다.
 		return "post/list";
 	}
@@ -53,7 +59,9 @@ public class PostController {
 		if(postEntity == null) {
 			return "post/saveForm"; // 글쓰기 실패 >> 원상태로 돌림
 		}else {
-			return "redirect:/post"; // 성공
+			return "redirect:/"; // 성공
 		}
 	}
+	
+	
 }
