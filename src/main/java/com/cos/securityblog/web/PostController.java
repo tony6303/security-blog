@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.cos.securityblog.auth.PrincipalDetails;
+import com.cos.securityblog.config.auth.PrincipalDetails;
 import com.cos.securityblog.domain.post.Post;
 import com.cos.securityblog.service.PostService;
 import com.cos.securityblog.web.post.dto.PostSaveReqDto;
@@ -27,8 +27,10 @@ public class PostController {
 	
 	
 	@GetMapping("/")
-	public String findAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=5)Pageable pageable ) { // 스프링이 제공해주는 라이브러리 Model
+	public String findAll(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size=5)Pageable pageable,
+			@AuthenticationPrincipal PrincipalDetails principalDetails) { // 스프링이 제공해주는 라이브러리 Model
 		//List<Post> posts = postService.전체찾기(pageable);
+		
 		Page<Post> posts = postService.전체찾기(pageable);
 		
 		model.addAttribute("posts",posts); // requestDispatcher 에 담고 포워딩 한거랑 같다.
@@ -59,7 +61,7 @@ public class PostController {
 		if(postEntity == null) {
 			return "post/saveForm"; // 글쓰기 실패 >> 원상태로 돌림
 		}else {
-			return "redirect:/"; // 성공
+			return "redirect:/"; // 성공 >> 리스트 페이지로 이동
 		}
 	}
 	

@@ -6,4 +6,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 
 	// PrincipalDetailsService.java
 	User findByUsername(String username);
+	
+	
 }

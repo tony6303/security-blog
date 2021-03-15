@@ -15,8 +15,6 @@
 	<h3>로그인 후 이용가능</h3>
 	<a href="/user">user</a>
 	<a href="/post">post</a>
-	<script>
-		location.href="/post"
-	</script>
+
 </body>
 </html>

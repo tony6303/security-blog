@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cos.securityblog.auth.PrincipalDetails;
+import com.cos.securityblog.config.auth.PrincipalDetails;
 
 @Controller
 public class UserController {

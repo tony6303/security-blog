@@ -32,7 +32,8 @@ public class User {
 	@Column(nullable = false, length = 100, unique = true) 
 	private String username; // 아이디
 	
-	@Column(nullable = false, length = 100) // 123456 => 해쉬 (비밀번호 암호화)
+	// 구글 로그인 회원가입시에 비밀번호 없이 되도록 설정했음. 2021/3/12
+	@Column(nullable = true, length = 100) // 123456 => 해쉬 (비밀번호 암호화)
 	private String password;
 	
 	@Column(nullable = false, length = 50)

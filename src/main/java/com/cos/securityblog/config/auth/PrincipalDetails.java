@@ -1,25 +1,50 @@
-package com.cos.securityblog.auth;
+package com.cos.securityblog.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.cos.securityblog.domain.user.User;
 
-public class PrincipalDetails implements UserDetails{
+import lombok.Data;
+
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User{
 	
 	private User user;
+	private Map<String, Object> attributes; // OAuth 제공자로부터 받은 회원정보
+	private boolean isOauth = false;
+
+	// Constructor
+	public PrincipalDetails(User user) {
+		this.user = user;
+	}
 	
+	public PrincipalDetails(User user, Map<String, Object> attributes) {
+		this.user = user;
+		this.attributes = attributes;
+		this.isOauth = true;
+	}
+	
+	// 왜 MAP으로 받죠 ? -> < 키 값, 오브젝트타입 > , (어디서 로그인했든 간에)모든 타입을 다 받을 수 있기때문에.
+	// OAuth2User implements
+	@Override
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	@Override
+	public String getName() {
+		return "나중에~";
+	}
 	
 	// 내가 만듬
 	public User getUser() {
 		return user;
-	}
-
-	public PrincipalDetails(User user) {
-		this.user = user;
 	}
 
 	@Override
@@ -52,8 +77,6 @@ public class PrincipalDetails implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-
-	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

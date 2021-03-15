@@ -15,9 +15,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.cos.securityblog.config.oauth.OAuth2DetailsService;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
+	private final OAuth2DetailsService oAuth2DetailsService;
 	
 	@Bean // ioc등록만하면 알아서해줌
 	public BCryptPasswordEncoder encode() {
@@ -35,8 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.formLogin()
 			.loginPage("/loginForm") // x-www-url-encoded
 		// 어렵다 !!!
-		.loginProcessingUrl("/login")  // /login 주소 요청이 들어오면 시큐리티가 낚아챈다.
-		.defaultSuccessUrl("/"); // 로그인이 성공하면 어디로 보낼지. 
+			.loginProcessingUrl("/login")  // /login 주소 요청이 들어오면 시큐리티가 낚아챈다.
+			.defaultSuccessUrl("/") // 로그인이 성공하면 어디로 보낼지.
+		.and()
+			.oauth2Login()  
+			.userInfoEndpoint()  // 윗줄과 이 줄은 기본문법
+			.userService(oAuth2DetailsService);
+			
 		// 원래 가려던 페이지가 인증에 막혔을때, 인증을 성공하면 원래 가려던 곳으로 보내게 해줌
 		
 //		.successHandler(new AuthenticationSuccessHandler() {
