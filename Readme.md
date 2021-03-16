@@ -11,7 +11,7 @@ create database pos;
 Google , Facebook , Naver , Kakao
 
 ## Blog
-회원가입 , 회원정보 수정
-글 작성 , 수정 , 삭제
+회원가입 , 회원정보 수정  
+글 작성 , 수정 , 삭제  
 댓글 작성 ,  삭제
 
