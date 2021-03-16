@@ -9,12 +9,19 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.securityblog.config.auth.PrincipalDetails;
 import com.cos.securityblog.domain.post.Post;
+import com.cos.securityblog.domain.post.PostRepository;
 import com.cos.securityblog.service.PostService;
+import com.cos.securityblog.web.dto.CMRespDto;
 import com.cos.securityblog.web.post.dto.PostSaveReqDto;
 
 import lombok.RequiredArgsConstructor;
@@ -47,6 +54,20 @@ public class PostController {
 		return "post/saveForm";
 	}
 	
+	@GetMapping("/post/{id}")
+	public String detail(@PathVariable int id, Model model) {
+		Post postEntity = postService.상세보기(id);
+		model.addAttribute("post",postEntity);
+		
+		return "post/detail";
+	}
+	
+	@DeleteMapping("/post/{id}")
+	public @ResponseBody CMRespDto<?> delete(@PathVariable int id){
+		postService.삭제하기(id);
+		return new CMRespDto<>(1,null); 
+	}
+	
 //	@PostMapping("/post")
 //	public Post post(Post post) {
 //		return postService.글저장하기(post);
@@ -65,5 +86,20 @@ public class PostController {
 		}
 	}
 	
+	@GetMapping("/post/{id}/updateForm")
+	public String updateForm(@PathVariable int id, Model model) {
+		Post postEntity = postService.상세보기(id);
+		model.addAttribute("post", postEntity);   // update ajax 는 직접만들기
+		return "post/updateForm";
+	}
+	
+	
+	@PutMapping("/post/{id}")
+	public @ResponseBody CMRespDto<?> update(@PathVariable int id,@RequestBody PostSaveReqDto postSaveReqDto){
+		System.out.println("받은 데이터" + postSaveReqDto);
+		postService.수정하기(id, postSaveReqDto);
+		System.out.println("수정된 데이터" + postSaveReqDto);
+		return new CMRespDto<>(1, null);
+	}
 	
 }

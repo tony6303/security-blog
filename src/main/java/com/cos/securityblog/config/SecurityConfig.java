@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable(); // 안하면 form 태그 사용 불가능
 		http.authorizeRequests()
-			.antMatchers("/user/**","/post/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") //.authenticated() // 인증이 필요한 페이지들
+			.antMatchers("/user/**", "/post/**" , "/reply/**").access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')") //.authenticated() // 인증이 필요한 페이지들
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // ROLE_ << 강제성있음
 			.anyRequest().permitAll()
 		.and()

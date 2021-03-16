@@ -62,14 +62,16 @@ spring:
             client-name: Naver
             
           kakao:
-            client-id: 4c7907b9544a80f13352aef6f61cee79 
+            client-id: 4c7907b9544a80f13352aef6f61cee79
             client-secret: EJjIIr6oxtu86j7Y9kw6ODMPbdirFBqI
             scope:
-            - email
+            - account_email
+            - profile
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8000/login/oauth2/code/kakao
-            client-authentication-method: POST
             client-name: Kakao
+            client-authentication-method: POST
+            
 
         provider:
           naver:
@@ -83,6 +85,5 @@ spring:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
-            # 요청하는 회사마다 키 값이 다름  
-            user-name-attribute: kakao_account
-            
+            # 요청하는 회사마다 키 값이 다름, 최상위 라인들 중에서만 받을 수 있음  
+            user-name-attribute: id

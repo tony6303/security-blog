@@ -38,4 +38,6 @@ public class AuthController {
 		public String login() {
 			return "login 성공";
 		}
+		
+		
 }

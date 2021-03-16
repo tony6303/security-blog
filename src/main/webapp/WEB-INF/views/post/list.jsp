@@ -7,8 +7,12 @@
  <c:forEach var="post" items="${posts.content}"> <!-- PostController를 Pageble로 바꿨기때문에. -->
   <div class="card">
    <div class="card-body">
-    <h4 class="card-title">${post.title }</h4>
-    <p class="card-text">${post.content }</p> 
+    
+    <div class="d-flex justify-content-between">
+     <h4 class="card-title">${post.title }</h4>
+     <div> 작성자 : ${post.user.username }</div> <!-- JPA의 강력한 기능??? -->
+    </div>
+     <p class="card-text">${post.content }</p> 
     <a href="/post/${post.id}" class="btn btn-primary">상세보기</a>
    </div>
   </div>

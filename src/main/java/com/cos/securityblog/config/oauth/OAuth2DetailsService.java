@@ -37,6 +37,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 		// GET 요청을 알아서 해줌.
 		OAuth2User oauth2User = super.loadUser(userRequest);
 		System.out.println("getAttribute: " +oauth2User.getAttributes()); // PrincipalDetails 가 OAuth2User 를 implements 중
+		//여기서 얻은 정보를 바탕으로 info 클래스 작성
 		/**
 		 * google
 		 * {sub=103916751827347440723, 
@@ -66,7 +67,7 @@ public class OAuth2DetailsService extends DefaultOAuth2UserService{
 		} else if(userRequest.getClientRegistration().getClientName().equals("Naver")) {
 			oAuth2UserInfo = new NaverInfo((Map<String, Object>)(oauth2User.getAttributes().get("response")));
 		} else if(userRequest.getClientRegistration().getClientName().equals("Kakao")) {
-			oAuth2UserInfo = new KakaoInfo((Map<String, Object>)(oauth2User.getAttributes().get("kakao_account")));
+			oAuth2UserInfo = new KakaoInfo((Map<String, Object>)(oauth2User.getAttributes()));
 		}
 		
 		// 2번 최초로그인 -> 회원가입 + 로그인   /// 이미 회원  ->  로그인

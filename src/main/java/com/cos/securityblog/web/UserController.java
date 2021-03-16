@@ -3,17 +3,29 @@ package com.cos.securityblog.web;
 import java.security.Principal;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.securityblog.config.auth.PrincipalDetails;
+import com.cos.securityblog.domain.user.User;
+import com.cos.securityblog.service.UserService;
+import com.cos.securityblog.web.dto.CMRespDto;
+import com.cos.securityblog.web.user.dto.UserUpdateReqDto;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class UserController {
-	
+	private final UserService userService;
 	// 로그인 , 회원가입, 로그아운 (AuthController)
 	
 	// 사실 유저컨트롤러가 할게 많이없다... 유저정보 가져오기? 끝.
@@ -40,6 +52,29 @@ public class UserController {
 		
 		
 		return "Hello user";
+	}
+	
+	@GetMapping("/user/{id}")
+	public String updateForm(@PathVariable int id, Model model) {
+		model.addAttribute("id",id);
+		return "user/updateForm";
+	}
+	
+	@PutMapping("/user/{id}")
+	public @ResponseBody CMRespDto<?> update(@PathVariable int id, @RequestBody UserUpdateReqDto userUpdateReqDto, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+		System.out.println("받은 데이터" + userUpdateReqDto);
+		User userEntity = userService.회원수정(id, userUpdateReqDto);
+		
+		// 세션변경
+		// UsernamePasswordToken -> Authentication 객체로 만들어서 시큐리티 컨텍스트 홀더에 집어넣으면 됨
+//		Authentication authentication = 
+//				new UsernamePasswordAuthenticationToken(userEntity.getUsername(), userEntity.getPassword());
+//		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		
+		principalDetails.setUser(userEntity);
+		
+		return new CMRespDto<>(1, null);
 	}
 	
 	
