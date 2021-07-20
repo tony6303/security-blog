@@ -48,6 +48,7 @@
       <li class="nav-item"><a class="nav-link" href="/post/saveForm">글쓰기</a></li>
       <li class="nav-item"><a class="nav-link" href="/user/${principal.user.id }">회원정보보기</a></li>
       <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
+      <li class="nav-item nav-link">현재 로그인 중 : ${principal.user.username }</li>
      </ul>
     </div>
    </c:otherwise>
